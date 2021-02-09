@@ -1,0 +1,48 @@
+{
+  "name": "phaser-react",
+  "version": "1.0.0",
+  "description": "Phaser on react",
+  "module": "commonjs",
+  "homepage": "https://github.com/Egor18032019/",
+  "keywords": [
+    "Phaser,react,noob"
+  ],
+  "author": "Egor",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server",
+    "eslint": "npm run eslint.js && npm run eslint.ts",
+    "eslint.js": "eslint --ext .jsx --ext .js src/",
+    "eslint.ts": "eslint --ext .tsx --ext .ts src/ --config .eslintrc-ts.yml ",
+    "test": "npm run eslint && npm run test.jest",
+    "test.jest": "jest",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@babel/preset-react": "7.10.1",
+    "babel-loader": "^8.1.0",
+    "typescript": "^3.9.3",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
+    "eslint": "^7.1.0",
+    "eslint-config-htmlacademy": "0.5.2",
+    "eslint-plugin-react": "7.20.0",
+    "file-loader": "^6.0.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@ion-phaser/react": "^1.2.2",
+    "phaser": "^3.23.0",
+    "prop-types": "15.7.2",
+    "react": "16.13.1",
+    "react-csv": "^2.0.3",
+    "react-dom": "16.13.1",
+    "react-router-dom": "5.2.0"
+  }
+}
