@@ -1,6 +1,6 @@
 
 import Phaser from 'phaser';
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import {IonPhaser} from '@ion-phaser/react';
 
 import WorldScene from './WorldScene.js';
@@ -11,11 +11,11 @@ const mainGame = {
   type: Phaser.AUTO,
   // backgroundColor: '#555555',
   // parent: 'phaser-example',
-  parent: `content`,
+  // parent: `content`,
   width: 800,
   height: 600,
-  zoom: 2,
-  pixelArt: true, // чтобы не было размытия текстур при масштабировании
+  // zoom: 2,
+  // pixelArt: true, // чтобы не было размытия текстур при масштабировании
   physics: {
     default: `arcade`,
     arcade: {
@@ -27,12 +27,12 @@ const mainGame = {
     PlatformScene
   ],
 };
-
+let gamePhaser = new Phaser.Game(mainGame);
 
 const FirstGame = () => {
   const [gameState] = useState({
     initialize: true,
-    game: mainGame
+    game: gamePhaser
   });
   const {initialize, game} = gameState;
 
@@ -44,4 +44,21 @@ const FirstGame = () => {
     </div>
   );
 };
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialize: true,
+      game: mainGame
+    };
+  }
+  render() {
+    const {initialize, game} = this.state;
+    return (
+      <IonPhaser game={game} initialize={initialize} />
+    );
+  }
+}
+
 export default FirstGame;

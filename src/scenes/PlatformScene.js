@@ -12,7 +12,9 @@ import dude from '../assets/dude.png';
 
 export default class PlatformScene extends Phaser.Scene {
   constructor() {
-    super(`world`);
+    super({
+      key: `PlatformScene`
+    });
     this.cursors = null;
     this.player = null;
     this.stars = null;
