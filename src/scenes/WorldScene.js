@@ -1,19 +1,22 @@
-/* eslint-disable linebreak-style */
 import Phaser from 'phaser';
 // import sky from "../assets/map/spritesheet.png";
 
 export default class WorldScene extends Phaser.Scene {
   constructor() {
-    super({key: `WorldScene`});
-
+    super({
+      key: `WorldScene`
+    });
+    this.player = null;
+    this.spawns = null;
   }
 
   preload() {
+    console.log(`WorldScene preload`);
 
   }
 
   onMeetEnemy(player, zone) {
-    console.log(`onMeetEnemy`);
+    console.log(`WorldScene onMeetEnemy`);
 
     // мы перемещаем зону в другое место
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -27,28 +30,26 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(`create`);
+    console.log(`WorldScene create`);
 
     // здесь создается сцена WorldScene
     // создаем карту
     let map = this.make.tilemap({
       key: `map`
     }); // Параметр key  - это имя, каторое мы дали
-      // карте, когда использовали this.load.tilemapTiledJSON
-      // для ее загрузки.
-      // Теперь, если вы обновите игру, она все еще черная. Чтобы карта была в игре, нам нужно загрузить слои карты.
-      // первый параметр это название карты тайлов (там где храняться спрайты карты) на карте
+    // карте, когда использовали this.load.tilemapTiledJSON
+    // для ее загрузки.
+    // Теперь, если вы обновите игру, она все еще черная. Чтобы карта была в игре, нам нужно загрузить слои карты.
+    // первый параметр это название карты тайлов (там где храняться спрайты карты) на карте
     let tiles = map.addTilesetImage(`spritesheet`, `tiles`);
-    console.log(tiles);
 
     // создаем слои
     // grass - «Трава»  содержит только элементы травы
-    let grass = map.createStaticLayer(`Grass`, tiles, 0, 0);
+    let grass = map.createLayer(`Grass`, tiles, 0, 0);
     // obstacles - «Препятствия» на нем есть несколько деревьев.
-    var obstacles = map.createStaticLayer(`Obstacles`, tiles, 0, 0);
-    console.log(obstacles);
+    let obstacles = map.createLayer(`Obstacles`, tiles, 0, 0);
     // делает все тайлы в слое obstacles  доступными для обнаружения столкновений (отправляет -1)
-    //   obstacles.setCollisionByExclusion([-1]);
+    obstacles.setCollisionByExclusion([-1]);
 
 
     // анимация клавиши 'left' для персонажа
@@ -61,7 +62,6 @@ export default class WorldScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     });
-
     // анимация клавиши 'right' для персонажа
     this.anims.create({
       key: `right`,
@@ -93,6 +93,7 @@ export default class WorldScene extends Phaser.Scene {
     // Чтобы игрок мог столкнуться с препятствиями на карте, мы создадим его с помощью системы физики - this.physics.add.sprite.
     // Первый параметр - координата x, второй - y, третий - ресурс изображения, а последний - его кадр.
     this.player = this.physics.add.sprite(50, 100, `player`, 6);
+    console.log(this.player);
 
     // Далее ограничим игрока границами карты. Сначала мы устанавливаем границы мира, а затем устанавливаем
     // для свойства персонажа collideWorldBounds значение true.
@@ -124,52 +125,50 @@ export default class WorldScene extends Phaser.Scene {
       // параметры: x, y, width, height
       this.spawns.create(x, y, 20, 20);
     }
+
     // добавляем коллайдер
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    var obstacles = map.createStaticLayer(`Obstacles`, tiles, 0, 0);
+    this.physics.add.collider(this.spawns, obstacles); // берет два объекта и проверяет, сталкиваются ли они
 
-    //   obstacles.setCollisionByExclusion([-1]);s
-    console.log(obstacles);
-
-    console.log(`end`);
+    console.log(`WorldScene create end`);
 
   }
 
   update(time, delta) {
-    console.log(`WorldSceneupdate`);
+    console.log(`WorldScene update`);
 
     // Сначала мы устанавливаем скорость тела на 0.
-    //    this.player.body.setVelocity(0);
+    this.player.body.setVelocity(0);
+    this.player.body.setVelocityY(-5); // хз, но он двигалься
+    // горизонтальное перемещение
+    if (this.cursors.left.isDown) {
+      this.player.body.setVelocityX(-80);
+    } else if (this.cursors.right.isDown) {
+      this.player.body.setVelocityX(80);
+    }
 
-    //    // горизонтальное перемещение
-    //    if (this.cursors.left.isDown) {
-    //        this.player.body.setVelocityX(-80);
-    //    } else if (this.cursors.right.isDown) {
-    //        this.player.body.setVelocityX(80);
-    //    }
+    // вертикальное перемещение
+    if (this.cursors.up.isDown) {
+      this.player.body.setVelocityY(-80);
+    } else if (this.cursors.down.isDown) {
+      this.player.body.setVelocityY(80);
+    }
 
-    //    // вертикальное перемещение
-    //    if (this.cursors.up.isDown) {
-    //        this.player.body.setVelocityY(-80);
-    //    } else if (this.cursors.down.isDown) {
-    //        this.player.body.setVelocityY(80);
-    //    }
-
-    //    // В конце обновляем анимацию и устанавливаем приоритет анимации
-    //    // left/right над анимацией up/down
-    //    if (this.cursors.left.isDown) {
-    //        this.player.anims.play('left', true);
-    //        this.player.flipX = true; //Разворачиваем спрайты персонажа вдоль оси X
-    //    } else if (this.cursors.right.isDown) {
-    //        this.player.anims.play('right', true);
-    //        this.player.flipX = false; //Отменяем разворот спрайтов персонажа вдоль оси X
-    //    } else if (this.cursors.up.isDown) {
-    //        this.player.anims.play('up', true);
-    //    } else if (this.cursors.down.isDown) {
-    //        this.player.anims.play('down', true);
-    //    } else {
-    //        this.player.anims.stop();
-    //    }
+    // В конце обновляем анимацию и устанавливаем приоритет анимации
+    // left/right над анимацией up/down
+    if (this.cursors.left.isDown) {
+      this.player.anims.play(`left`, true);
+      this.player.flipX = true; // Разворачиваем спрайты персонажа вдоль оси X
+    } else if (this.cursors.right.isDown) {
+      this.player.anims.play(`right`, true);
+      this.player.flipX = false; // Отменяем разворот спрайтов персонажа вдоль оси X
+    } else if (this.cursors.up.isDown) {
+      this.player.anims.play(`up`, true);
+    } else if (this.cursors.down.isDown) {
+      this.player.anims.play(`down`, true);
+    } else {
+      this.player.anims.stop();
+    }
   }
 }

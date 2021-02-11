@@ -1,31 +1,32 @@
 
 import Phaser from 'phaser';
-import React, {useState, Component} from 'react';
+import React, {useState} from 'react';
 import {IonPhaser} from '@ion-phaser/react';
 
 import WorldScene from './WorldScene.js';
 import PlatformScene from './PlatformScene.js';
 import BootScene from './BootScene.js';
+import BattleScene from './BattleScene.js';
+import UIScene from './UIScene.js';
 
 const mainGame = {
   type: Phaser.AUTO,
   // backgroundColor: '#555555',
   // parent: 'phaser-example',
   // parent: `content`,
-  width: 800,
-  height: 600,
+  width: 320,
+  height: 240,
   // zoom: 2,
   // pixelArt: true, // чтобы не было размытия текстур при масштабировании
   physics: {
     default: `arcade`,
     arcade: {
       gravity: {y: 300},
-      debug: false,
+      debug: false, // . Phaser.GameObjects.Zone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
     },
   },
   scene: [
-    PlatformScene
-  ],
+    BootScene, BattleScene, UIScene],
 };
 let gamePhaser = new Phaser.Game(mainGame);
 
@@ -44,21 +45,5 @@ const FirstGame = () => {
     </div>
   );
 };
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      initialize: true,
-      game: mainGame
-    };
-  }
-  render() {
-    const {initialize, game} = this.state;
-    return (
-      <IonPhaser game={game} initialize={initialize} />
-    );
-  }
-}
 
 export default FirstGame;

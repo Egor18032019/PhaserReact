@@ -1,12 +1,7 @@
-/* eslint-disable linebreak-style */
-
 import Phaser from 'phaser';
 
 export default class BombSpawner {
-  /**
-     * @param {Phaser.Scene} scene
-     */
-  constructor(scene, bombKey = 'bomb') {
+  constructor(scene, bombKey = `bomb`) {
     this.scene = scene;
     this.key = bombKey;
 
