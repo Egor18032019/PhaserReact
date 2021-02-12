@@ -23,10 +23,13 @@ let Message = new Phaser.Class({
     });
     this.add(this.text);
     this.text.setOrigin(0.5);
+    // вызываем в Units с помощью команы "Message"
+    // this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`); пример
     events.on(`Message`, this.showMessage, this);
     this.visible = false;
   },
   showMessage(text) {
+    console.log(`showMessage`);
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent) {
@@ -39,6 +42,7 @@ let Message = new Phaser.Class({
     });
   },
   hideMessage() {
+    console.log(`showMessage`);
     this.hideEvent = null;
     this.visible = false;
   }
@@ -117,6 +121,8 @@ let Menu = new Phaser.Class({
   },
   confirm() {
     // что делать, когда игрок подтверждает свой выбор
+    console.log(`Menu confirm() `);
+
   },
   clear() {
     for (let i = 0; i < this.menuItems.length; i++) {

@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import dragonblue from "../assets/dragonblue.png";
+import dragonblue from "../assets/dragonblue.png"; // понять не могу почему поп простому не получаеться
 import dragonorrange from "../assets/dragonorrange.png";
 
 export default class BootScene extends Phaser.Scene {

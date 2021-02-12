@@ -13,7 +13,7 @@ let Unit = new Phaser.Class({
     },
   attack(target) {
     target.takeDamage(this.damage);
-    // this.scene.events.emit("Message", this.type + " атакует " + target.type + " с " + this.damage + " уроном");
+    this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`);
   },
   takeDamage(damage) {
     this.hp -= damage;

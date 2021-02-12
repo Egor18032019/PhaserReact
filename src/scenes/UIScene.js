@@ -50,7 +50,7 @@ export default class UIScene extends Phaser.Scene {
     this.remapEnemies();
 
     this.input.keyboard.on(`keydown`, this.onKeyInput, this);
-
+    // прослушивать события из одной сцены в другой сцене.
     this.battleScene.events.on(`PlayerSelect`, this.onPlayerSelect, this);
 
     this.events.on(`SelectEnemies`, this.onSelectEnemies, this);
@@ -59,7 +59,10 @@ export default class UIScene extends Phaser.Scene {
 
     this.battleScene.nextTurn();
 
+    console.log(this);
+    console.log(this.battleScene.events);
     this.message = new Message(this, this.battleScene.events);
+    console.log(this.message);
     this.add.existing(this.message);
     console.log(`UIScene end`);
 
@@ -72,6 +75,7 @@ export default class UIScene extends Phaser.Scene {
     let enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
   }
+
   onKeyInput(event) {
     if (this.currentMenu) {
       if (event.code === `ArrowUp`) {
@@ -79,24 +83,30 @@ export default class UIScene extends Phaser.Scene {
       } else if (event.code === `ArrowDown`) {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === `ArrowRight` || event.code === `Shift`) {
-
+        console.log(`ArrowRight`);
       } else if (event.code === `Space` || event.code === `ArrowLeft`) {
         this.currentMenu.confirm();
       }
     }
   }
   onPlayerSelect(id) {
+    console.log(`onPlayerSelect onPlayerSelect(id) `);
+
     this.heroesMenu.select(id);
     this.actionsMenu.select(0);
     this.currentMenu = this.actionsMenu;
+    // Мы просто выбираем id-й элемент из heroesMenu.
+    // Затем мы выбираем первый элемент в ActionsMenu, и он становится текущим активным меню.
   }
   onSelectEnemies() {
+    console.log(`UIScene onSelectEnemies`);
+
     this.currentMenu = this.enemiesMenu;
     this.enemiesMenu.select(0);
   }
   onEnemy(index) {
     console.log(`UIScene onEnemy`);
-
+    // А метод onEnemy UIScene очистит все меню и отправит данные в BattleScene:
     this.heroesMenu.deselect();
     this.actionsMenu.deselect();
     this.enemiesMenu.deselect();

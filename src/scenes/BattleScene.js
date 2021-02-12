@@ -29,10 +29,10 @@ export default class BattleScene extends Phaser.Scene {
     let mage = new PlayerCharacter(this, 250, 100, `player`, 4, `Маг`, 80, 8);
     this.add.existing(mage);
 
-    let dragonblue = new Enemy(this, 50, 50, `dragonblue`, null, `Дракон`, 50, 3);
+    let dragonblue = new Enemy(this, 50, 50, `dragonblue`, null, `Дракониха`, 50, 3);
     this.add.existing(dragonblue);
 
-    let dragonOrange = new Enemy(this, 50, 100, `dragonorrange`, null, `Дракон2`, 50, 3);
+    let dragonOrange = new Enemy(this, 50, 100, `dragonorrange`, null, `Дракон`, 50, 3);
     this.add.existing(dragonOrange);
 
     // массив с героями
@@ -44,7 +44,7 @@ export default class BattleScene extends Phaser.Scene {
     // Одновременно запускаем сцену UI Scene
     this.scene.launch(`UIScene`, true); // обе сцены активны одновременно
 
-    this.index = -1;
+    this.index = -1;// Этот индекс хранит текущий активный юнит в массиве юнитов.
   }
   nextTurn() {
     this.index++;
