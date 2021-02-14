@@ -22,11 +22,11 @@ const mainGame = {
     default: `arcade`,
     arcade: {
       gravity: {y: 300},
-      debug: false, // . Phaser.GameObjects.Zone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
+      debug: true, // . Phaser.GameObjects.Zone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
     },
   },
   scene: [
-    BootScene, BattleScene, UIScene],
+    BootScene, WorldScene, BattleScene, UIScene],
 };
 let gamePhaser = new Phaser.Game(mainGame);
 

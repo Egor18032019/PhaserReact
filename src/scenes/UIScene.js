@@ -53,7 +53,7 @@ export default class UIScene extends Phaser.Scene {
     // прослушивать события из одной сцены в другой сцене.
     this.battleScene.events.on(`PlayerSelect`, this.onPlayerSelect, this);
 
-    this.events.on(`SelectEnemies`, this.onSelectEnemies, this);
+    this.events.on(`SelectedAction`, this.onSelectedAction, this);
 
     this.events.on(`Enemy`, this.onEnemy, this);
 
@@ -98,7 +98,7 @@ export default class UIScene extends Phaser.Scene {
     // Мы просто выбираем id-й элемент из heroesMenu.
     // Затем мы выбираем первый элемент в ActionsMenu, и он становится текущим активным меню.
   }
-  onSelectEnemies() {
+  onSelectedAction() {
     console.log(`UIScene onSelectEnemies`);
 
     this.currentMenu = this.enemiesMenu;

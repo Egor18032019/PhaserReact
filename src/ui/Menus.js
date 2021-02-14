@@ -67,8 +67,12 @@ let MenuItem = new Phaser.Class({
 
   deselect() {
     this.setColor(`#ffffff`);
+  },
+  // когда связанный враг или игрок убит
+  unitKilled() {
+    this.active = false;
+    this.visible = false;
   }
-
 });
 
 let Menu = new Phaser.Class({
@@ -88,21 +92,27 @@ let Menu = new Phaser.Class({
     let menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
     this.menuItems.push(menuItem);
     this.add(menuItem);
+    return menuItem;
   },
   moveSelectionUp() {
     this.menuItems[this.menuItemIndex].deselect();
-    this.menuItemIndex--;
-    if (this.menuItemIndex < 0) {
-      this.menuItemIndex = this.menuItems.length - 1;
-    }
+    do {
+      this.menuItemIndex--;
+      if (this.menuItemIndex < 0) {
+        this.menuItemIndex = this.menuItems.length - 1;
+      }
+    } // создает цикл, который выполняет указанное выражение до тех пор, пока условие не станет ложным
+    while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
   },
   moveSelectionDown() {
     this.menuItems[this.menuItemIndex].deselect();
-    this.menuItemIndex++;
-    if (this.menuItemIndex >= this.menuItems.length) {
-      this.menuItemIndex = 0;
-    }
+    do {
+      this.menuItemIndex++;
+      if (this.menuItemIndex >= this.menuItems.length) {
+        this.menuItemIndex = 0;
+      }
+    } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
   },
   // выбрать меню целиком и элемент с индексом в нем
@@ -112,7 +122,17 @@ let Menu = new Phaser.Class({
     }
     this.menuItems[this.menuItemIndex].deselect();
     this.menuItemIndex = index;
+    while (!this.menuItems[this.menuItemIndex].active) { // создает цикл, выполняющий заданную инструкцию, пока истинно проверяемое условие
+      this.menuItemIndex++;
+      if (this.menuItemIndex >= this.menuItems.length) {
+        this.menuItemIndex = 0;
+      }
+      if (this.menuItemIndex == index) {
+        return;
+      }
+    }
     this.menuItems[this.menuItemIndex].select();
+    this.selected = true;
   },
   // отменить выбор этого меню
   deselect() {
@@ -135,8 +155,10 @@ let Menu = new Phaser.Class({
     this.clear();
     for (let i = 0; i < units.length; i++) {
       let unit = units[i];
-      this.addMenuItem(unit.type);
+      // this.addMenuItem(unit.type);
+      unit.setMenuItem(this.addMenuItem(unit.type));
     }
+    this.menuItemIndex = 0;
   }
 });
 
@@ -162,7 +184,7 @@ let ActionsMenu = new Phaser.Class({
     },
   confirm() {
     //  что делать, когда игрок выберет действие
-    this.scene.events.emit(`SelectEnemies`);
+    this.scene.events.emit(`SelectedAction`);
   }
 
 });

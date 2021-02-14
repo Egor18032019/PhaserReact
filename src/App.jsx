@@ -10,9 +10,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul className="App-list">
+          <li>1.Сделать несколько игр. </li>
+          <li>2.Сделать выбор с анимацией. </li>
+        </ul>
         <a
           className="App-link"
           href="https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.GameObject.html"

@@ -10,13 +10,31 @@ let Unit = new Phaser.Class({
       this.type = type;
       this.maxHp = this.hp = hp;
       this.damage = damage; // урон по умолчанию
+      this.living = true;
+      this.menuItem = null;
     },
+
+  // мы будем использовать эту функцию, чтобы установить пункт меню, когда юнит умирает
+  // Мы свяжем каждый юнит с его пунктом меню, и когда он будет убит, то уведомит об этом пункт меню, поэтому игрок не сможет выбрать убитого врага.
+  setMenuItem(item) {
+    this.menuItem = item;
+  },
+  // атака целевого юнита
   attack(target) {
-    target.takeDamage(this.damage);
-    this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`);
+    if (target.living) {
+      target.takeDamage(this.damage);
+      this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`);
+    }
   },
   takeDamage(damage) {
     this.hp -= damage;
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.menuItem.unitKilled();
+      this.living = false;
+      this.visible = false;
+      this.menuItem = null;
+    }
   }
 });
 
@@ -39,7 +57,6 @@ let PlayerCharacter = new Phaser.Class({
     this.setScale(2);
   }
 });
-
 
 export {
   Enemy,

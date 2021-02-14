@@ -27,6 +27,10 @@ export default class WorldScene extends Phaser.Scene {
     // this.cameras.main.flash(300);
 
     // начало боя
+
+    // переключаемся на  BattleScene
+
+    this.scene.switch(`BattleScene`);
   }
 
   create() {
@@ -39,7 +43,6 @@ export default class WorldScene extends Phaser.Scene {
     }); // Параметр key  - это имя, каторое мы дали
     // карте, когда использовали this.load.tilemapTiledJSON
     // для ее загрузки.
-    // Теперь, если вы обновите игру, она все еще черная. Чтобы карта была в игре, нам нужно загрузить слои карты.
     // первый параметр это название карты тайлов (там где храняться спрайты карты) на карте
     let tiles = map.addTilesetImage(`spritesheet`, `tiles`);
 
