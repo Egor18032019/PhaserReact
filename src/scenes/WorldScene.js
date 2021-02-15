@@ -96,8 +96,6 @@ export default class WorldScene extends Phaser.Scene {
     // Чтобы игрок мог столкнуться с препятствиями на карте, мы создадим его с помощью системы физики - this.physics.add.sprite.
     // Первый параметр - координата x, второй - y, третий - ресурс изображения, а последний - его кадр.
     this.player = this.physics.add.sprite(50, 100, `player`, 6);
-    console.log(this.player);
-
     // Далее ограничим игрока границами карты. Сначала мы устанавливаем границы мира, а затем устанавливаем
     // для свойства персонажа collideWorldBounds значение true.
     this.physics.world.bounds.width = map.widthInPixels;
@@ -122,6 +120,7 @@ export default class WorldScene extends Phaser.Scene {
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
     });
+
     for (let i = 0; i < 30; i++) {
       let x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       let y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -133,8 +132,19 @@ export default class WorldScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.collider(this.spawns, obstacles); // берет два объекта и проверяет, сталкиваются ли они
-
+    this.sys.events.on(`wake`, this.wake, this); // сбросить все нажатые кнопки
     console.log(`WorldScene create end`);
+  }
+
+  wake() {
+
+    this.cursors.left.reset();
+
+    this.cursors.right.reset();
+
+    this.cursors.up.reset();
+
+    this.cursors.down.reset();
 
   }
 
@@ -143,7 +153,6 @@ export default class WorldScene extends Phaser.Scene {
 
     // Сначала мы устанавливаем скорость тела на 0.
     this.player.body.setVelocity(0);
-    this.player.body.setVelocityY(-5); // хз, но он двигалься
     // горизонтальное перемещение
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-80);

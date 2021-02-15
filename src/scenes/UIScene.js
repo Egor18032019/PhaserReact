@@ -46,26 +46,32 @@ export default class UIScene extends Phaser.Scene {
 
     this.battleScene = this.scene.get(`BattleScene`);
 
-    this.remapHeroes();
-    this.remapEnemies();
-
     this.input.keyboard.on(`keydown`, this.onKeyInput, this);
     // прослушивать события из одной сцены в другой сцене.
     this.battleScene.events.on(`PlayerSelect`, this.onPlayerSelect, this);
 
     this.events.on(`SelectedAction`, this.onSelectedAction, this);
-
+    // когда выбран враг
     this.events.on(`Enemy`, this.onEnemy, this);
 
-    this.battleScene.nextTurn();
+    // когда сцена получает событие wake
+    this.sys.events.on(`wake`, this.createMenu, this);
 
-    console.log(this);
-    console.log(this.battleScene.events);
+    // сообщение, описывающее текущее действие
     this.message = new Message(this, this.battleScene.events);
-    console.log(this.message);
     this.add.existing(this.message);
+
+    this.createMenu();
     console.log(`UIScene end`);
 
+  }
+  createMenu() {
+    // перестроение пунктов меню для героев
+    this.remapHeroes();
+    // перестроение пунктов меню для врагов
+    this.remapEnemies();
+    // первый шаг
+    this.battleScene.nextTurn();
   }
   remapHeroes() {
     let heroes = this.battleScene.heroes;
@@ -77,7 +83,7 @@ export default class UIScene extends Phaser.Scene {
   }
 
   onKeyInput(event) {
-    if (this.currentMenu) {
+    if (this.currentMenu && this.currentMenu.selected) {
       if (event.code === `ArrowUp`) {
         this.currentMenu.moveSelectionUp();
       } else if (event.code === `ArrowDown`) {

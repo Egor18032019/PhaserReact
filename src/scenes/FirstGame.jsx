@@ -21,8 +21,8 @@ const mainGame = {
   physics: {
     default: `arcade`,
     arcade: {
-      gravity: {y: 300},
-      debug: true, // . Phaser.GameObjects.Zone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
+      gravity: {y: 0},
+      debug: false, // . Phaser.GameObjecfalseone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
     },
   },
   scene: [

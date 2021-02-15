@@ -42,7 +42,6 @@ let Message = new Phaser.Class({
     });
   },
   hideMessage() {
-    console.log(`showMessage`);
     this.hideEvent = null;
     this.visible = false;
   }
@@ -87,6 +86,7 @@ let Menu = new Phaser.Class({
       this.heroes = heroes;
       this.x = x;
       this.y = y;
+      this.selected = false;
     },
   addMenuItem(unit) {
     let menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
@@ -127,7 +127,7 @@ let Menu = new Phaser.Class({
       if (this.menuItemIndex >= this.menuItems.length) {
         this.menuItemIndex = 0;
       }
-      if (this.menuItemIndex == index) {
+      if (this.menuItemIndex === index) {
         return;
       }
     }
