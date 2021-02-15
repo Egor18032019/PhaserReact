@@ -8,6 +8,7 @@
 }
 
 .App-list {
+  list-style: none;
   width: 30%;
   text-align: left;
 }
