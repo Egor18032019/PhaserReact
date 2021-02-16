@@ -183,4 +183,13 @@ export default class WorldScene extends Phaser.Scene {
       this.player.anims.stop();
     }
   }
+
+  gameOver() {
+    // проверям дошли ли до Врат
+    // Если да то выход -> доска победителей по времени
+    // Если нет то рестарт
+    // перезапускаем сцену
+    this.scene.restart();
+  }
+
 }

@@ -22,7 +22,7 @@ const mainGame = {
     default: `arcade`,
     arcade: {
       gravity: {y: 0},
-      debug: false, // . Phaser.GameObjecfalseone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
+      debug: true, // . Phaser.GameObjecfalseone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
     },
   },
   scene: [

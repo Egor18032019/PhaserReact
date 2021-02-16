@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-let Message = new Phaser.Class({
+let Message = new Phaser.Class({ // Кричит Message в Units
 
   Extends: Phaser.GameObjects.Container,
 
@@ -10,9 +10,9 @@ let Message = new Phaser.Class({
     this.add(graphics);
     graphics.lineStyle(1, 0xffffff, 0.8);
     graphics.fillStyle(0x031f4c, 0.3);
-    graphics.strokeRect(-90, -15, 180, 30);
-    graphics.fillRect(-90, -15, 180, 30);
-    this.text = new Phaser.GameObjects.Text(scene, 0, 0, ``, {
+    graphics.strokeRect(-90, -15, 180, 52);
+    graphics.fillRect(-90, -15, 180, 52);
+    this.text = new Phaser.GameObjects.Text(scene, 0, 12, `Лог`, {
       color: `#ffffff`,
       align: `center`,
       fontSize: 13,

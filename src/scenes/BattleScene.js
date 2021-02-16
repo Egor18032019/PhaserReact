@@ -55,7 +55,34 @@ export default class BattleScene extends Phaser.Scene {
     //   callbackScope: this
     // });
     // вешаем на событие wake вызов метода startBattle
-    this.sys.events.on(`wake`, this.wake, this);
+    this.sys.events.on(`wake`, this.startBattle, this);
+  }
+  startBattle() {
+    // персонаж игрока - warrior (воин)
+    let warrior = new PlayerCharacter(this, 250, 50, `player`, 1, `Воин`, 100, 20);
+    this.add.existing(warrior);
+
+    // персонаж игрока - mage (маг)
+    let mage = new PlayerCharacter(this, 250, 100, `player`, 4, `Маг`, 80, 8);
+    this.add.existing(mage);
+
+    let dragonblue = new Enemy(this, 50, 50, `dragonblue`, null, `Дракон`, 50, 3);
+    this.add.existing(dragonblue);
+
+    let dragonOrange = new Enemy(this, 50, 100, `dragonorrange`, null, `Дракон2`, 50, 3);
+    this.add.existing(dragonOrange);
+
+    // массив с героями
+    this.heroes = [warrior, mage];
+    // массив с врагами
+    this.enemies = [dragonblue, dragonOrange];
+    // массив с обеими сторонами, которые будут атаковать
+    this.units = this.heroes.concat(this.enemies);
+
+    // Одновременно запускаем сцену UI Scene
+    this.scene.launch(`UIScene`);
+
+    this.index = -1; // текущий активный юнит
   }
   // nextTurn() {
   //   this.index++;
@@ -158,18 +185,7 @@ export default class BattleScene extends Phaser.Scene {
     // возвращаемся в WorldScene и скрываем BattleScene
     this.scene.switch(`WorldScene`);
   }
-  exitBattle() {
-    this.scene.sleep(`UIScene`);
-    this.scene.switch(`WorldScene`);
-  }
-  wake() {
-    this.scene.run(`UIScene`);
-    this.time.addEvent({
-      delay: 2000,
-      callback: this.exitBattle,
-      callbackScope: this
-    });
-  }
+
   update() {
     console.log(`BattleScene update`);
 

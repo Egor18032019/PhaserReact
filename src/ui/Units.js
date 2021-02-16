@@ -21,9 +21,11 @@ let Unit = new Phaser.Class({
   },
   // атака целевого юнита
   attack(target) {
+    console.log(target);
     if (target.living) {
       target.takeDamage(this.damage);
-      this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`);
+      this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном` +
+      `   Остаёться у ` + target.type + `=` + target.hp);
     }
   },
   takeDamage(damage) {
