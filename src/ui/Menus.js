@@ -141,8 +141,6 @@ let Menu = new Phaser.Class({
   },
   confirm() {
     // что делать, когда игрок подтверждает свой выбор
-    console.log(`Menu confirm() `);
-
   },
   clear() {
     for (let i = 0; i < this.menuItems.length; i++) {

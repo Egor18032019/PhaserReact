@@ -157,15 +157,15 @@ export default class BattleScene extends Phaser.Scene {
   checkEndBattle() {
     let victory = true;
     // если все враги умерли - мы победили
-    for (var i = 0; i < this.enemies.length; i++) {
+    for (let i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i].living) {
         victory = false;
       }
     }
     let gameOver = true;
     // если все герои умерли - мы проиграли
-    for (var i = 0; i < this.heroes.length; i++) {
-      if (this.heroes[i].living) {
+    for (let j = 0; j < this.heroes.length; j++) {
+      if (this.heroes[j].living) {
         gameOver = false;
       }
     }
@@ -187,7 +187,5 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   update() {
-    console.log(`BattleScene update`);
-
   }
 }

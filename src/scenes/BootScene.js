@@ -1,6 +1,9 @@
 import Phaser from 'phaser';
-import dragonblue from "../assets/dragonblue.png"; // понять не могу почему поп простому не получаеться
-import dragonorrange from "../assets/dragonorrange.png";
+import dragonblue from "../assets/dragonblue.png"; // понять не могу почему по простому не получаеться
+import dragonorrange from "../assets/dragonorrange.png"; // такое впечетление что он их тащит от index.html
+import tiles from "../assets/map/spritesheet.png";
+import map from "../assets/map/map.json";
+import player from "../assets/RPG_assets.png";
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -14,13 +17,13 @@ export default class BootScene extends Phaser.Scene {
     console.log(`BootScene`);
     // здесь происходит загрузка ресурсов
     // тайлы для карты
-    this.load.image(`tiles`, `assets/map/spritesheet.png`);
+    this.load.image(`tiles`, tiles);
 
     // карта в json формате
-    this.load.tilemapTiledJSON(`map`, `assets/map/map.json`);
+    this.load.tilemapTiledJSON(`map`, map);
 
     // наши персонажи
-    this.load.spritesheet(`player`, `assets/RPG_assets.png`, {
+    this.load.spritesheet(`player`, player, {
       frameWidth: 16,
       frameHeight: 16
     });
@@ -31,13 +34,10 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(`BootScene create`);
 
     this.scene.start(`WorldScene`, false);
   }
 
   update() {
-    console.log(`BootScene update`);
-
   }
 }

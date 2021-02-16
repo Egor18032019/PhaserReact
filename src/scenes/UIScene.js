@@ -15,7 +15,6 @@ export default class UIScene extends Phaser.Scene {
 
   }
   preload() {
-    console.log(`preload UIScene`);
 
   }
   create() {

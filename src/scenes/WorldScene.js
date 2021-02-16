@@ -11,7 +11,6 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   preload() {
-    console.log(`WorldScene preload`);
 
   }
 
