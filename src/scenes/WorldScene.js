@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-// import sky from "../assets/map/spritesheet.png";
 
 export default class WorldScene extends Phaser.Scene {
   constructor() {
@@ -9,9 +8,19 @@ export default class WorldScene extends Phaser.Scene {
     this.player = null;
     this.spawns = null;
   }
+  init(msg) {
+    console.log(`Menu: `, msg);
+    if (msg === `BattleScene -> WorldScene`) {
+      console.log(`Menu: `, `msg`);
+      this.scene.restart(`next`);
+      //  и все равно ошибка
+    }
+  }
 
   preload() {
-
+    if (this.spawns) {
+      console.log(this.spawns.entries);
+    }
   }
 
   onMeetEnemy(player, zone) {
@@ -26,9 +35,7 @@ export default class WorldScene extends Phaser.Scene {
     // this.cameras.main.flash(300);
 
     // начало боя
-
     // переключаемся на  BattleScene
-
     this.scene.switch(`BattleScene`);
   }
 
@@ -95,6 +102,8 @@ export default class WorldScene extends Phaser.Scene {
     // Чтобы игрок мог столкнуться с препятствиями на карте, мы создадим его с помощью системы физики - this.physics.add.sprite.
     // Первый параметр - координата x, второй - y, третий - ресурс изображения, а последний - его кадр.
     this.player = this.physics.add.sprite(50, 100, `player`, 6);
+    this.star = this.physics.add.image(map.widthInPixels - 100, map.heightInPixels - 150, `star`, 16);
+
     // Далее ограничим игрока границами карты. Сначала мы устанавливаем границы мира, а затем устанавливаем
     // для свойства персонажа collideWorldBounds значение true.
     this.physics.world.bounds.width = map.widthInPixels;
@@ -114,10 +123,11 @@ export default class WorldScene extends Phaser.Scene {
 
     // запрещаем проходить сквозь деревья
     this.physics.add.collider(this.player, obstacles);
+    this.physics.add.collider(this.player, this.star, this.hitStar, null, this);
 
     // распологаем врагов
     this.spawns = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone
+      classType: Phaser.GameObjects.Zone,
     });
 
     for (let i = 0; i < 30; i++) {
@@ -126,6 +136,7 @@ export default class WorldScene extends Phaser.Scene {
       // параметры: x, y, width, height
       this.spawns.create(x, y, 20, 20);
     }
+    console.log(this.spawns.children.entries);
 
     // добавляем коллайдер
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
@@ -187,8 +198,30 @@ export default class WorldScene extends Phaser.Scene {
     // проверям дошли ли до Врат
     // Если да то выход -> доска победителей по времени
     // Если нет то рестарт
+
     // перезапускаем сцену
-    this.scene.restart();
+    this.scene.restart(); // где дать больше хп драконам
   }
 
+  hitStar() {
+    this.star.destroy();
+
+    const particles = this.add.particles(`red`);
+    // создаем класс динамических тел
+    const emitter = particles.createEmitter({
+      speed: 100,
+      scale: {
+        start: 1,
+        end: 0,
+      },
+      blenMode: `ADD`,
+    });
+
+    emitter.startFollow(this.player); // емитер следуй за лого ))
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.gameOver,
+      callbackScope: this
+    });
+  }
 }

@@ -24,17 +24,17 @@ let Message = new Phaser.Class({ // Кричит Message в Units
     this.add(this.text);
     this.text.setOrigin(0.5);
     // вызываем в Units с помощью команы "Message"
-    // this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`); пример
     events.on(`Message`, this.showMessage, this);
     this.visible = false;
   },
   showMessage(text) {
-    console.log(`showMessage`);
+    console.log(text);
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent) {
       this.hideEvent.remove(false);
     }
+
     this.hideEvent = this.scene.time.addEvent({
       delay: 2000,
       callback: this.hideMessage,

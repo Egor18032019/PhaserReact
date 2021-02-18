@@ -17,6 +17,10 @@ module.exports = {
     port: 888, // - порт в котором открывается
     historyApiFallback: true // для react-router-dom
   },
+  watchOptions: {
+    aggregateTimeout: 500,
+    poll: 1500,
+  },
   module: { // как преобразуються файлы для webpacka
     rules: [{
       test: /\.(js|jsx)$/, // те типы файлов котоорые проверям

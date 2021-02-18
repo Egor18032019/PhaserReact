@@ -8,11 +8,12 @@ import PlatformScene from './PlatformScene.js';
 import BootScene from './BootScene.js';
 import BattleScene from './BattleScene.js';
 import UIScene from './UIScene.js';
+import {createTrue} from 'typescript';
 
 const mainGame = {
   type: Phaser.AUTO,
   // backgroundColor: '#555555',
-  // parent: 'phaser-example',
+  parent: `game-container`,
   // parent: `content`,
   width: 320,
   height: 240,
