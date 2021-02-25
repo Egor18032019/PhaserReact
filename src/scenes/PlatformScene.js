@@ -98,6 +98,7 @@ export default class PlatformScene extends Phaser.Scene {
     });
 
     stars.children.iterate((child) => {
+      // eslint-disable-next-line new-cap
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
     return stars;
@@ -129,8 +130,6 @@ export default class PlatformScene extends Phaser.Scene {
 
   hitBomb(player, bomba) {
     this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play(`turn`);
     bomba.destroy();
     const particles = this.add.particles(`red`);
 
@@ -144,8 +143,25 @@ export default class PlatformScene extends Phaser.Scene {
       blenMode: `ADD`,
     });
 
-    emitter.startFollow(this.player); // емитер следуй за лого ))
-    this.gameOver = true;
+    emitter.startFollow(player); // емитер следуй за лого ))
+
+    this.cursors.left.reset();
+
+    this.cursors.right.reset();
+
+    this.cursors.up.reset();
+
+    this.cursors.down.reset();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.restart,
+      callbackScope: this
+    });
+  }
+
+  restart() {
+    this.scene.restart();
   }
 
   create() {
@@ -184,8 +200,8 @@ export default class PlatformScene extends Phaser.Scene {
       this.player.setVelocityX(0);
       this.player.anims.play(`turn`);
     }
-    if (this.cursors.up.isDown && this.player.body.touching.down) // также проверяем, касается ли он платформы
-    {
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      // также проверяем, касается ли он платформы
       this.player.setVelocityY(-444);
     }
   }

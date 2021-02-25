@@ -1,19 +1,64 @@
 
 import Phaser from 'phaser';
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import {IonPhaser} from '@ion-phaser/react';
 
-import WorldScene from './WorldScene.js';
-import PlatformScene from './PlatformScene.js';
 import BootScene from './BootScene.js';
+import WorldScene from './WorldScene.js';
 import BattleScene from './BattleScene.js';
 import UIScene from './UIScene.js';
-import {createTrue} from 'typescript';
+
+import {mapGame} from "../utils/NameSpace.js";
+
+const returnConfigMainGame = (configGame) => {
+  return (
+    {
+      type: Phaser.AUTO,
+      // backgroundColor: '#555555',
+      parent: `Game-container`,
+      width: configGame.width,
+      height: configGame.height,
+      // для PlatformScene 800*600 + гравитация 300
+      // zoom: 2,
+      pixelArt: true, // чтобы не было размытия текстур при масштабировании
+      physics: {
+        default: `arcade`,
+        arcade: {
+          gravity: configGame.gravity,
+          debug: false, // . Phaser.GameObject это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
+        },
+      },
+      scene: configGame.scene
+    }
+  );
+};
+
+class firstGame extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialize: true,
+      // game: new Phaser.Game(mainGame)
+      game: new Phaser.Game(mainGame)
+    };
+  }
+
+  render() {
+    const {initialize, game} = this.state;
+    console.log(this.props);
+
+    return (
+      // new Phaser.Game(mainGame)
+      <IonPhaser game={game} initialize={initialize} />
+
+    );
+  }
+}
 
 const mainGame = {
   type: Phaser.AUTO,
   // backgroundColor: '#555555',
-  parent: `game-container`,
+  // parent: 'phaser-example',
   // parent: `content`,
   width: 320,
   height: 240,
@@ -23,28 +68,30 @@ const mainGame = {
     default: `arcade`,
     arcade: {
       gravity: {y: 0},
-      debug: true, // . Phaser.GameObjecfalseone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
+      debug: false, // . Phaser.GameObjecfalseone - это невидимый объект, чтобы увидеть его во время разработки, вы можете установить debug: true
     },
   },
   scene: [
     BootScene, WorldScene, BattleScene, UIScene],
 };
-let gamePhaser = new Phaser.Game(mainGame);
 
-const FirstGame = () => {
-  const [gameState] = useState({
+const FirstGame = (props) => {
+
+  const [gameState, setGameState] = useState({
     initialize: true,
-    game: gamePhaser
+    game: mainGame
   });
-  const {initialize, game} = gameState;
 
   return (
-    <div className='game-wrapper'>
-      <div className='wrapper'>
-        <IonPhaser game={game} initialize={initialize} />
-      </div>
-    </div>
+    <IonPhaser game={gameState.game} initialize={gameState.initialize} />
   );
 };
 
-export default FirstGame;
+const chooseGame = (game) => {
+  const ChoosingGame = returnConfigMainGame(mapGame[game]);
+  const foo = new Phaser.Game(ChoosingGame);
+  return (
+    foo
+  );
+};
+export default chooseGame;

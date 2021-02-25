@@ -9,18 +9,20 @@ module.exports = {
     // eslint-disable-next-line no-undef
     path: path.join(__dirname, `build`) // абсолютный путь до public где будет лежать bundle.js
   },
+  watch: false,
+  // watchOptions: {
+  //   aggregateTimeout: 500,
+  //   poll: 1500,
+  // },
   devServer: {
     // eslint-disable-next-line no-undef
     contentBase: path.join(__dirname, `public`), // - пишем откуда серверу забирать файлы
     // где лежат html и css файлы
     open: false, // чтобы при запуске не открывался браузер
     port: 888, // - порт в котором открывается
-    historyApiFallback: true // для react-router-dom
+    historyApiFallback: true, // для react-router-dom
   },
-  watchOptions: {
-    aggregateTimeout: 500,
-    poll: 1500,
-  },
+
   module: { // как преобразуються файлы для webpacka
     rules: [{
       test: /\.(js|jsx)$/, // те типы файлов котоорые проверям

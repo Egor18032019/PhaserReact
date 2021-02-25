@@ -29,6 +29,7 @@ let Message = new Phaser.Class({ // Кричит Message в Units
   },
   showMessage(text) {
     console.log(text);
+    console.log(this.text);
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent) {
@@ -150,6 +151,7 @@ let Menu = new Phaser.Class({
     this.menuItemIndex = 0;
   },
   remap(units) {
+    console.log(units);
     this.clear();
     for (let i = 0; i < units.length; i++) {
       let unit = units[i];

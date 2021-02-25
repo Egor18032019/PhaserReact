@@ -9,23 +9,21 @@ export default class WorldScene extends Phaser.Scene {
     this.spawns = null;
   }
   init(msg) {
-    console.log(`Menu: `, msg);
+    console.log(`WorldScene init: `, msg);
+    // console.log(this.sys.events);
     if (msg === `BattleScene -> WorldScene`) {
-      console.log(`Menu: `, `msg`);
       this.scene.restart(`next`);
-      //  и все равно ошибка
+    } else {
+      this.sys.events.on(`wake`, this.wake, this); // сбросить все нажатые кнопки
     }
   }
 
   preload() {
-    if (this.spawns) {
-      console.log(this.spawns.entries);
-    }
+
   }
 
   onMeetEnemy(player, zone) {
     console.log(`WorldScene onMeetEnemy`);
-
     // мы перемещаем зону в другое место
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -41,7 +39,6 @@ export default class WorldScene extends Phaser.Scene {
 
   create() {
     console.log(`WorldScene create`);
-
     // здесь создается сцена WorldScene
     // создаем карту
     let map = this.make.tilemap({
@@ -127,22 +124,20 @@ export default class WorldScene extends Phaser.Scene {
 
     // распологаем врагов
     this.spawns = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
+      classType: Phaser.GameObjects.Sprite,
     });
 
     for (let i = 0; i < 30; i++) {
       let x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       let y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // параметры: x, y, width, height
-      this.spawns.create(x, y, 20, 20);
+      this.spawns.create(x, y, `star`, 20, 20);
     }
-    console.log(this.spawns.children.entries);
 
     // добавляем коллайдер
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.collider(this.spawns, obstacles); // берет два объекта и проверяет, сталкиваются ли они
-    this.sys.events.on(`wake`, this.wake, this); // сбросить все нажатые кнопки
     console.log(`WorldScene create end`);
   }
 

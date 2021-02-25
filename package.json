@@ -16,9 +16,8 @@
     "eslint.ts": "eslint --ext .tsx --ext .ts src/ --config .eslintrc-ts.yml ",
     "test": "npm run eslint && npm run test.jest",
     "test.jest": "jest",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
+    "predeploy": "npm run build"
+   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",

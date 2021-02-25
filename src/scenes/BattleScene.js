@@ -12,24 +12,26 @@ export default class BattleScene extends Phaser.Scene {
     super({
       key: `BattleScene`
     });
+    this.warrior = `wasReborn`;
+    this.mage = `wasReborn`;
   }
 
   init(msg) {
-    console.log(`Menu: `, msg);
+    console.log(`BattleScene init: `, msg);
   }
 
-  preload() {
-    console.log(`BattleScene`);
-  }
+  preload() {}
 
   startBattle() {
+    console.log(`startBattle BS`);
     // персонаж игрока - this.warrior (воин)
-    if (!this.warrior) {
-      this.warrior = new PlayerCharacter(this, 250, 50, `player`, 1, `Воин`, 50, 20);
+    if (this.warrior === `wasReborn`) {
+      console.log(`this.warrior`);
+      this.warrior = new PlayerCharacter(this, 250, 50, `player`, 1, `Воин`, 50, 11);
     }
     this.add.existing(this.warrior);
     // персонаж игрока - mage (маг)
-    if (!this.mage) {
+    if (this.mage === `wasReborn`) {
       this.mage = new PlayerCharacter(this, 250, 100, `player`, 4, `Маг`, 50, 11);
     }
     this.add.existing(this.mage);
@@ -134,14 +136,14 @@ export default class BattleScene extends Phaser.Scene {
       this.units[i].destroy();
     }
     // скрываем UI
-    this.scene.sleep(`UIScene`);
+    this.scene.sleep(`UIScene`, `sleep in Battle`);
 
     if (this.gameOver) {
       console.log(`gameOver `);
       this.heroes.length = 0;
 
       this.time.addEvent({
-        delay: 4000,
+        delay: 2000,
         callback: this.endBatleForLose,
         callbackScope: this
       });
@@ -149,8 +151,8 @@ export default class BattleScene extends Phaser.Scene {
     } else {
       // очищаем состояния, удаляем спрайты врагов
       this.enemies.length = 0;
-
       // возвращаемся в WorldScene и скрываем BattleScene
+      this.scene.switch(`WorldScene`);
     }
   }
 
@@ -158,38 +160,41 @@ export default class BattleScene extends Phaser.Scene {
     console.log(`Проигрыш`);
     this.heroes.length = 0;
     this.enemies.length = 0;
-    this.warrior = true;
-    this.mage = true;
+    this.warrior = `wasReborn`;
+    this.mage = `wasReborn`;
     this.units.length = 0;
     for (let i = 0; i < this.units.length; i++) {
       // ссылки на экземпляры юнитов
       this.units[i].destroy();
     }
+    this.createButtonPlay(`star`, `Play ?`);
+  }
 
-    let carmouse = this.add.sprite(100, 99, `star`);
-    carmouse.setVisible(false);
+  createButtonPlay(icon, textButton) {
+    let starMouse = this.add.sprite(100, 99, icon);
+    starMouse.setVisible(false);
+
     let playButton =
-      this.add.text(111, 75, `Play ?`, {
+      this.add.text(111, 75, textButton, {
         font: `18px monospace`,
         color: `white`
       }).setShadow(5, 5, `#5588EE`, 0, true, true);
-    console.log(this);
     playButton.setScale(3).setResolution(5);
     playButton.setInteractive();
 
     playButton.on(`pointerover`, () => {
-      carmouse.setVisible(true);
+      starMouse.setVisible(true);
     });
 
     playButton.on(`pointerout`, () => {
-      carmouse.setVisible(false);
+      starMouse.setVisible(false);
     });
 
     playButton.on(`pointerup`, () => {
       console.log(`Start Game`);
+      // this.scene.remove(`UIScene`, `destroy in Battle`);
       this.scene.start(`WorldScene`, `BattleScene -> WorldScene`);
     });
-
   }
 
   update() {}
