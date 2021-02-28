@@ -7,7 +7,7 @@ import {DATAGAMELIST} from "./data/GameList.js";
 import {customLi} from "./utils/utils.jsx";
 
 function App() {
-  const [game, setGame] = useState(`RPG`);
+  const [game, setGame] = useState(`Xodilka`);
 
   chooseGame(game);
 

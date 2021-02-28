@@ -151,12 +151,16 @@ let Menu = new Phaser.Class({
     this.menuItemIndex = 0;
   },
   remap(units) {
-    console.log(units);
     this.clear();
     for (let i = 0; i < units.length; i++) {
-      let unit = units[i];
-      // this.addMenuItem(unit.type);
-      unit.setMenuItem(this.addMenuItem(unit.type));
+      if (units[i].hp === 0) {
+        // если хп ноль то удаляем в массиве
+        // units.splice(i, 1);
+        this.units[i].destroy();
+      } else {
+        let unit = units[i];
+        unit.setMenuItem(this.addMenuItem(unit.type));
+      }
     }
     this.menuItemIndex = 0;
   }

@@ -24,22 +24,24 @@ export default class BattleScene extends Phaser.Scene {
 
   startBattle() {
     console.log(`startBattle BS`);
+
     // персонаж игрока - this.warrior (воин)
     if (this.warrior === `wasReborn`) {
-      console.log(`this.warrior`);
+      console.log(`this.warrior wasReborn`);
       this.warrior = new PlayerCharacter(this, 250, 50, `player`, 1, `Воин`, 50, 11);
     }
     this.add.existing(this.warrior);
     // персонаж игрока - mage (маг)
     if (this.mage === `wasReborn`) {
+      console.log(`this.mage wasReborn`);
       this.mage = new PlayerCharacter(this, 250, 100, `player`, 4, `Маг`, 50, 11);
     }
     this.add.existing(this.mage);
 
     // создаем противников
-    let dragonblue = new Enemy(this, 50, 50, `dragonblue`, null, `Дракон`, 22, 55);
+    let dragonblue = new Enemy(this, 50, 50, `dragonblue`, null, `Дракон`, 22, 22);
     this.add.existing(dragonblue);
-    let dragonOrange = new Enemy(this, 50, 100, `dragonorrange`, null, `Дракон2`, 22, 55);
+    let dragonOrange = new Enemy(this, 50, 100, `dragonorrange`, null, `Дракон2`, 22, 22);
     this.add.existing(dragonOrange);
 
     // массив с героями
@@ -48,7 +50,16 @@ export default class BattleScene extends Phaser.Scene {
     this.enemies = [dragonblue, dragonOrange];
     // массив с обеими сторонами, которые будут атаковать
     this.units = this.heroes.concat(this.enemies);
+    // проверяем на всякий случай
+    for (let i = 0; i < this.units.length; i++) {
+      console.log(this.units[i].hp);
+      if (this.units[i].hp === 0) {
+        // если хп ноль то удаляем в массиве
+        // this.units.splice(i, 1);
+        this.units[i].destroy();
 
+      }
+    }
     // Одновременно запускаем сцену UI Scene
     this.scene.launch(`UIScene`);
 
@@ -108,8 +119,6 @@ export default class BattleScene extends Phaser.Scene {
   }
   // проверка на проигрыш или победу
   checkEndBattle() {
-    this.message = new Message(this, this.events);
-    this.add.existing(this.message);
     this.victory = true;
     // если все враги умерли - мы победили
     for (let i = 0; i < this.enemies.length; i++) {
@@ -129,6 +138,7 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
+    console.log(`endBattle`);
     // очищаем состояния, удаляем спрайты
     this.units.length = 0;
     for (let i = 0; i < this.units.length; i++) {

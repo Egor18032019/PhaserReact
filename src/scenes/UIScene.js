@@ -17,8 +17,8 @@ export default class UIScene extends Phaser.Scene {
 
   init(msg) {
     console.log(`UIScene Menu: `, msg);
-    if (msg !== `sleep in Battle`) {
-      console.log(`console.log(\`UIScene Menu: sleep in Battle);`);
+    if (msg === `sleep in Battle`) {
+      console.log(`UIScene Menu: sleep in Battle);`);
     }
   }
   preload() {
@@ -66,6 +66,7 @@ export default class UIScene extends Phaser.Scene {
     // сообщение, описывающее текущее действие
     this.message = new Message(this, this.battleScene.events);
     this.add.existing(this.message);
+
     this.createMenu();
 
   }
@@ -84,8 +85,6 @@ export default class UIScene extends Phaser.Scene {
   }
   remapEnemies() {
     let enemies = this.battleScene.enemies;
-    console.log(enemies);
-
     this.enemiesMenu.remap(enemies);
   }
 

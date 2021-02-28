@@ -15,7 +15,7 @@ const returnConfigMainGame = (configGame) => {
     {
       type: Phaser.AUTO,
       // backgroundColor: '#555555',
-      parent: `Game-container`,
+      parent: `content`,
       width: configGame.width,
       height: configGame.height,
       // для PlatformScene 800*600 + гравитация 300
@@ -89,9 +89,6 @@ const FirstGame = (props) => {
 
 const chooseGame = (game) => {
   const ChoosingGame = returnConfigMainGame(mapGame[game]);
-  const foo = new Phaser.Game(ChoosingGame);
-  return (
-    foo
-  );
+  new Phaser.Game(ChoosingGame);
 };
 export default chooseGame;

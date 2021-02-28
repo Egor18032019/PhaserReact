@@ -41,22 +41,21 @@ export default class WorldScene extends Phaser.Scene {
     console.log(`WorldScene create`);
     // здесь создается сцена WorldScene
     // создаем карту
-    let map = this.make.tilemap({
+    this.map = this.make.tilemap({
       key: `map`
     }); // Параметр key  - это имя, каторое мы дали
-    // карте, когда использовали this.load.tilemapTiledJSON
+    // карте, когда использовали this.load.tilethis.mapTiledJSON
     // для ее загрузки.
     // первый параметр это название карты тайлов (там где храняться спрайты карты) на карте
-    let tiles = map.addTilesetImage(`spritesheet`, `tiles`);
+    this.tiles = this.map.addTilesetImage(`spritesheet`, `tiles`);
 
     // создаем слои
     // grass - «Трава»  содержит только элементы травы
-    let grass = map.createLayer(`Grass`, tiles, 0, 0);
+    this.grass = this.map.createLayer(`Grass`, this.tiles, 0, 0);
     // obstacles - «Препятствия» на нем есть несколько деревьев.
-    let obstacles = map.createLayer(`Obstacles`, tiles, 0, 0);
+    this.obstacles = this.map.createDynamicLayer(`Obstacles`, this.tiles, 0, 0);
     // делает все тайлы в слое obstacles  доступными для обнаружения столкновений (отправляет -1)
-    obstacles.setCollisionByExclusion([-1]);
-
+    this.obstacles.setCollisionByExclusion([-1]);
 
     // анимация клавиши 'left' для персонажа
     // мы используем одни и те же спрайты для левой и правой клавиши, просто зеркалим их
@@ -99,32 +98,31 @@ export default class WorldScene extends Phaser.Scene {
     // Чтобы игрок мог столкнуться с препятствиями на карте, мы создадим его с помощью системы физики - this.physics.add.sprite.
     // Первый параметр - координата x, второй - y, третий - ресурс изображения, а последний - его кадр.
     this.player = this.physics.add.sprite(50, 100, `player`, 6);
-    this.star = this.physics.add.image(map.widthInPixels - 100, map.heightInPixels - 150, `star`, 16);
+    this.star = this.physics.add.image(this.map.widthInPixels - 100, this.map.heightInPixels - 150, `star`, 16);
 
     // Далее ограничим игрока границами карты. Сначала мы устанавливаем границы мира, а затем устанавливаем
     // для свойства персонажа collideWorldBounds значение true.
-    this.physics.world.bounds.width = map.widthInPixels;
-    this.physics.world.bounds.height = map.heightInPixels;
+    this.physics.world.bounds.width = this.map.widthInPixels;
+    this.physics.world.bounds.height = this.map.heightInPixels;
     this.player.setCollideWorldBounds(true);
-
 
     // получаем данные ввода пользователя с клавиатуры
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // ограничиваем камеру размерами карты
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     // заставляем камеру следовать за игроком
     this.cameras.main.startFollow(this.player);
     // своего рода хак, чтобы предотвратить пояление полос в тайлах
     this.cameras.main.roundPixels = true;
 
     // запрещаем проходить сквозь деревья
-    this.physics.add.collider(this.player, obstacles);
+    this.physics.add.collider(this.player, this.obstacles);
     this.physics.add.collider(this.player, this.star, this.hitStar, null, this);
 
     // распологаем врагов
     this.spawns = this.physics.add.group({
-      classType: Phaser.GameObjects.Sprite,
+      classType: Phaser.GameObjects.Sprite
     });
 
     for (let i = 0; i < 30; i++) {
@@ -137,12 +135,11 @@ export default class WorldScene extends Phaser.Scene {
     // добавляем коллайдер
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-    this.physics.add.collider(this.spawns, obstacles); // берет два объекта и проверяет, сталкиваются ли они
+    this.physics.add.collider(this.spawns, this.obstacles); // берет два объекта и проверяет, сталкиваются ли они
     console.log(`WorldScene create end`);
   }
 
   wake() {
-
     this.cursors.left.reset();
 
     this.cursors.right.reset();
@@ -150,7 +147,6 @@ export default class WorldScene extends Phaser.Scene {
     this.cursors.up.reset();
 
     this.cursors.down.reset();
-
   }
 
   update(time, delta) {
@@ -207,9 +203,9 @@ export default class WorldScene extends Phaser.Scene {
       speed: 100,
       scale: {
         start: 1,
-        end: 0,
+        end: 0
       },
-      blenMode: `ADD`,
+      blenMode: `ADD`
     });
 
     emitter.startFollow(this.player); // емитер следуй за лого ))
