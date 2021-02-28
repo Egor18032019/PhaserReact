@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import chooseGame from "./scenes/FirstGame.jsx";
 import {DATAGAMELIST} from "./data/GameList.js";
@@ -9,7 +9,9 @@ import {customLi} from "./utils/utils.jsx";
 function App() {
   const [game, setGame] = useState(`Xodilka`);
 
-  chooseGame(game);
+  useEffect(() => {
+    chooseGame(game);
+  }, [game]);
 
   const onGameClick = (evt) => {
     setGame(evt);
