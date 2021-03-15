@@ -9,8 +9,7 @@ export default class WorldScene extends Phaser.Scene {
     this.spawns = null;
   }
   init(msg) {
-    console.log(`WorldScene init: `, msg);
-    // console.log(this.sys.events);
+    // console.log(`WorldScene init: `, msg);
     if (msg === `BattleScene -> WorldScene`) {
       this.scene.restart(`next`);
     } else {
@@ -23,7 +22,6 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   onMeetEnemy(player, zone) {
-    console.log(`WorldScene onMeetEnemy`);
     // мы перемещаем зону в другое место
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -38,7 +36,6 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(`WorldScene create`);
     // здесь создается сцена WorldScene
     // создаем карту
     this.map = this.make.tilemap({
@@ -53,7 +50,7 @@ export default class WorldScene extends Phaser.Scene {
     // grass - «Трава»  содержит только элементы травы
     this.grass = this.map.createLayer(`Grass`, this.tiles, 0, 0);
     // obstacles - «Препятствия» на нем есть несколько деревьев.
-    this.obstacles = this.map.createDynamicLayer(`Obstacles`, this.tiles, 0, 0);
+    this.obstacles = this.map.createLayer(`Obstacles`, this.tiles, 0, 0);
     // делает все тайлы в слое obstacles  доступными для обнаружения столкновений (отправляет -1)
     this.obstacles.setCollisionByExclusion([-1]);
 
@@ -136,7 +133,6 @@ export default class WorldScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
     this.physics.add.collider(this.spawns, this.obstacles); // берет два объекта и проверяет, сталкиваются ли они
-    console.log(`WorldScene create end`);
   }
 
   wake() {

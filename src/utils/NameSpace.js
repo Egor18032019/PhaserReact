@@ -1,4 +1,4 @@
-import BootScene from '../scenes/BootScene.js';
+import BootScene from '../scenes/PreloaderGame.js';
 import WorldScene from '../scenes/WorldScene.js';
 import BattleScene from '../scenes/BattleScene.js';
 import UIScene from '../scenes/UIScene.js';

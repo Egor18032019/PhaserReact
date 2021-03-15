@@ -16,17 +16,15 @@ export default class UIScene extends Phaser.Scene {
   }
 
   init(msg) {
-    console.log(`UIScene Menu: `, msg);
+    // console.log(`UIScene Menu: `, msg);
     if (msg === `sleep in Battle`) {
-      console.log(`UIScene Menu: sleep in Battle);`);
+      // console.log(`UIScene Menu: sleep in Battle);`);
     }
   }
   preload() {
 
   }
   create() {
-    console.log(`create UIScene`);
-
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
@@ -71,7 +69,6 @@ export default class UIScene extends Phaser.Scene {
 
   }
   createMenu() {
-    console.log(`createMenu`);
     // перестроение пунктов меню для героев
     this.remapHeroes();
     // перестроение пунктов меню для врагов

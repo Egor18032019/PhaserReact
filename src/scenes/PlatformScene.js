@@ -1,13 +1,6 @@
-/* eslint-disable linebreak-style */
 import Phaser from 'phaser';
 import ScoreLabel from '../ui/ScoreLabel';
 import BombSpawner from '../ui/BombSpawner';
-
-import sky from '../assets/sky.png';
-import ground from '../assets/platform.png';
-import star from '../assets/star.png';
-import bomb from '../assets/bomb.png';
-import dude from '../assets/dude.png';
 
 
 export default class PlatformScene extends Phaser.Scene {
@@ -25,13 +18,13 @@ export default class PlatformScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(`sky`, sky);
-    this.load.image(`ground`, ground);
-    this.load.image(`star`, star);
-    this.load.image(`bomb`, bomb);
+    this.load.image(`sky`, `./assets/sky.png`);
+    this.load.image(`ground`, `./assets/platform.png`);
+    this.load.image(`star`, `./assets/star.png`);
+    this.load.image(`bomb`, `./assets/bomb.png`);
     this.load.image(`red`, `http://labs.phaser.io/assets/particles/red.png`);
 
-    this.load.spritesheet(`dude`, dude, {
+    this.load.spritesheet(`dude`, `./assets/dude.png`, {
       frameWidth: 32,
       frameHeight: 48,
     });

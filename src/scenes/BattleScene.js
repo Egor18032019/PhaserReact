@@ -17,23 +17,19 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   init(msg) {
-    console.log(`BattleScene init: `, msg);
+    // console.log(`BattleScene init: `, msg);
   }
 
   preload() {}
 
   startBattle() {
-    console.log(`startBattle BS`);
-
     // персонаж игрока - this.warrior (воин)
     if (this.warrior === `wasReborn`) {
-      console.log(`this.warrior wasReborn`);
       this.warrior = new PlayerCharacter(this, 250, 50, `player`, 1, `Воин`, 50, 11);
     }
     this.add.existing(this.warrior);
     // персонаж игрока - mage (маг)
     if (this.mage === `wasReborn`) {
-      console.log(`this.mage wasReborn`);
       this.mage = new PlayerCharacter(this, 250, 100, `player`, 4, `Маг`, 50, 11);
     }
     this.add.existing(this.mage);
@@ -52,7 +48,6 @@ export default class BattleScene extends Phaser.Scene {
     this.units = this.heroes.concat(this.enemies);
     // проверяем на всякий случай
     for (let i = 0; i < this.units.length; i++) {
-      console.log(this.units[i].hp);
       if (this.units[i].hp === 0) {
         // если хп ноль то удаляем в массиве
         // this.units.splice(i, 1);
@@ -138,7 +133,6 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    console.log(`endBattle`);
     // очищаем состояния, удаляем спрайты
     this.units.length = 0;
     for (let i = 0; i < this.units.length; i++) {
@@ -149,7 +143,6 @@ export default class BattleScene extends Phaser.Scene {
     this.scene.sleep(`UIScene`, `sleep in Battle`);
 
     if (this.gameOver) {
-      console.log(`gameOver `);
       this.heroes.length = 0;
 
       this.time.addEvent({
@@ -167,7 +160,6 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBatleForLose() {
-    console.log(`Проигрыш`);
     this.heroes.length = 0;
     this.enemies.length = 0;
     this.warrior = `wasReborn`;
@@ -201,7 +193,6 @@ export default class BattleScene extends Phaser.Scene {
     });
 
     playButton.on(`pointerup`, () => {
-      console.log(`Start Game`);
       // this.scene.remove(`UIScene`, `destroy in Battle`);
       this.scene.start(`WorldScene`, `BattleScene -> WorldScene`);
     });

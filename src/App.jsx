@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 
-import chooseGame from "./scenes/FirstGame.jsx";
+import ChooseGame from "./scenes/FirstGame.jsx";
 import {DATAGAMELIST} from "./data/GameList.js";
 
 import {customLi} from "./utils/utils.jsx";
@@ -9,9 +9,9 @@ import {customLi} from "./utils/utils.jsx";
 function App() {
   const [game, setGame] = useState(`Xodilka`);
 
-  useEffect(() => {
-    chooseGame(game);
-  }, [game]);
+  // useEffect(() => {
+  //   chooseGame(game);
+  // }, [game]);
 
   const onGameClick = (evt) => {
     setGame(evt);
@@ -37,9 +37,9 @@ function App() {
         <article className="Game-container">
           {customLi(DATAGAMELIST, onGameClick)}
         </article>
-        {/* <FirstGame
+        <ChooseGame
           game={game}
-        /> */}
+        />
       </main>
     </div>
   );

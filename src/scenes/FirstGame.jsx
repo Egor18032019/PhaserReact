@@ -1,6 +1,6 @@
 
 import Phaser from 'phaser';
-import React, {useState, Component} from 'react';
+import React, {useState, PureComponent} from 'react';
 import {IonPhaser} from '@ion-phaser/react';
 
 import BootScene from './BootScene.js';
@@ -10,7 +10,9 @@ import UIScene from './UIScene.js';
 
 import {mapGame} from "../utils/NameSpace.js";
 
-const returnConfigMainGame = (configGame) => {
+const returnConfigMainGame = (configGame = `Xodilka`) => {
+  console.log(`returnConfigMainGame`);
+
   return (
     {
       type: Phaser.AUTO,
@@ -33,33 +35,43 @@ const returnConfigMainGame = (configGame) => {
   );
 };
 
-class firstGame extends Component {
+class ChooseGame extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      initialize: true,
-      // game: new Phaser.Game(mainGame)
-      game: new Phaser.Game(mainGame)
-    };
+
+  }
+  componentDidMount() {
+    console.log(`componentDidMount`);
+    const ChoosingGame = returnConfigMainGame(mapGame[this.props.game]);
+    new Phaser.Game(ChoosingGame);
+
+  }
+  componentWillUnmount() {
+    console.log(`componentWillUnmount`);
+
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(`componentDidUpdate`);
+
+    let oldCanvas = document.getElementById(`content`);
+    console.log(oldCanvas);
+    oldCanvas.removeChild(oldCanvas.lastChild);
+    const ChoosingGame = returnConfigMainGame(mapGame[this.props.game]);
+    new Phaser.Game(ChoosingGame);
+  }
   render() {
-    const {initialize, game} = this.state;
-    console.log(this.props);
 
     return (
-      // new Phaser.Game(mainGame)
-      <IonPhaser game={game} initialize={initialize} />
-
+      // <IonPhaser game={game} initialize={initialize} />
+      <div className="content-info"></div>
     );
   }
 }
 
 const mainGame = {
   type: Phaser.AUTO,
-  // backgroundColor: '#555555',
-  // parent: 'phaser-example',
-  // parent: `content`,
+  parent: `content`,
   width: 320,
   height: 240,
   // zoom: 2,
@@ -75,20 +87,20 @@ const mainGame = {
     BootScene, WorldScene, BattleScene, UIScene],
 };
 
-const FirstGame = (props) => {
+// const FirstGame = (props) => {
 
-  const [gameState, setGameState] = useState({
-    initialize: true,
-    game: mainGame
-  });
+//   const [gameState, setGameState] = useState({
+//     initialize: true,
+//     game: mainGame
+//   });
 
-  return (
-    <IonPhaser game={gameState.game} initialize={gameState.initialize} />
-  );
-};
+//   return (
+//     <IonPhaser game={gameState.game} initialize={gameState.initialize} />
+//   );
+// };
 
 const chooseGame = (game) => {
   const ChoosingGame = returnConfigMainGame(mapGame[game]);
   new Phaser.Game(ChoosingGame);
 };
-export default chooseGame;
+export default ChooseGame;
