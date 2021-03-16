@@ -1,6 +1,4 @@
 import Phaser from 'phaser';
-import dragonblue from "../assets/dragonblue.png"; // понять не могу почему поп простому не получаеться
-import dragonorrange from "../assets/dragonorrange.png";
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -14,30 +12,26 @@ export default class BootScene extends Phaser.Scene {
     console.log(`BootScene`);
     // здесь происходит загрузка ресурсов
     // тайлы для карты
-    this.load.image(`tiles`, `assets/map/spritesheet.png`);
+    this.load.image(`tiles`, `./assets/map/spritesheet.png`);
 
     // карта в json формате
-    this.load.tilemapTiledJSON(`map`, `assets/map/map.json`);
+    this.load.tilemapTiledJSON(`map`, `./assets/map/map.json`);
 
     // наши персонажи
-    this.load.spritesheet(`player`, `assets/RPG_assets.png`, {
+    this.load.spritesheet(`player`, `./assets/RPG_assets.png`, {
       frameWidth: 16,
       frameHeight: 16
     });
     // load resources for Battle and UI
-    this.load.image(`dragonblue`, dragonblue);
-    this.load.image(`dragonorrange`, dragonorrange);
-    console.log(`BootScene end`);
+    this.load.image(`dragonblue`, `./assets/dragonblue.png`);
+    this.load.image(`dragonorrange`, `./assets/dragonorrange.png`);
+    this.load.image(`star`, `./assets/star.png`);
+    this.load.image(`red`, `http://labs.phaser.io/assets/particles/red.png`);
   }
 
   create() {
-    console.log(`BootScene create`);
-
     this.scene.start(`WorldScene`, false);
   }
 
-  update() {
-    console.log(`BootScene update`);
-
-  }
+  update() {}
 }

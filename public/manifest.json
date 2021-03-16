@@ -1,6 +1,6 @@
 {
-  "short_name": "Phaser and React",
   "name": "Phaser and React",
+  "short_name": "P$R",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +8,19 @@
       "type": "image/x-icon"
     },
     {
-      "src": "dude.png",
+      "src": "logo.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "382x381"
     },
     {
-      "src": "dude.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#bd21f3",
+  "background_color": "#21ccf3",
+  "orientation": "landscape"
 }

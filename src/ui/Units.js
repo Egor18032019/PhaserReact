@@ -5,14 +5,14 @@ let Unit = new Phaser.Class({
 
   initialize:
 
-    function Unit(scene, x, y, texture, frame, type, hp, damage) {
-      Phaser.GameObjects.Sprite.call(this, scene, x, y, texture, frame);
-      this.type = type;
-      this.maxHp = this.hp = hp;
-      this.damage = damage; // урон по умолчанию
-      this.living = true;
-      this.menuItem = null;
-    },
+      function Unit(scene, x, y, texture, frame, type, hp, damage) {
+        Phaser.GameObjects.Sprite.call(this, scene, x, y, texture, frame);
+        this.type = type;
+        this.maxHp = this.hp = hp;
+        this.damage = damage; // урон по умолчанию
+        this.living = true;
+        this.menuItem = null;
+      },
 
   // мы будем использовать эту функцию, чтобы установить пункт меню, когда юнит умирает
   // Мы свяжем каждый юнит с его пунктом меню, и когда он будет убит, то уведомит об этом пункт меню, поэтому игрок не сможет выбрать убитого врага.
@@ -23,7 +23,8 @@ let Unit = new Phaser.Class({
   attack(target) {
     if (target.living) {
       target.takeDamage(this.damage);
-      this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`);
+      this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном` +
+          `   Остаёться у ` + target.type + `=` + target.hp);
     }
   },
   takeDamage(damage) {

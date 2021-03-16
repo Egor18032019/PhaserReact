@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-let Message = new Phaser.Class({
+let Message = new Phaser.Class({ // Кричит Message в Units
 
   Extends: Phaser.GameObjects.Container,
 
@@ -10,9 +10,9 @@ let Message = new Phaser.Class({
     this.add(graphics);
     graphics.lineStyle(1, 0xffffff, 0.8);
     graphics.fillStyle(0x031f4c, 0.3);
-    graphics.strokeRect(-90, -15, 180, 30);
-    graphics.fillRect(-90, -15, 180, 30);
-    this.text = new Phaser.GameObjects.Text(scene, 0, 0, ``, {
+    graphics.strokeRect(-90, -15, 180, 52);
+    graphics.fillRect(-90, -15, 180, 52);
+    this.text = new Phaser.GameObjects.Text(scene, 0, 12, `Лог`, {
       color: `#ffffff`,
       align: `center`,
       fontSize: 13,
@@ -24,17 +24,17 @@ let Message = new Phaser.Class({
     this.add(this.text);
     this.text.setOrigin(0.5);
     // вызываем в Units с помощью команы "Message"
-    // this.scene.events.emit(`Message`, this.type + ` атакует ` + target.type + ` с ` + this.damage + ` уроном`); пример
     events.on(`Message`, this.showMessage, this);
     this.visible = false;
   },
   showMessage(text) {
-    console.log(`showMessage`);
+    console.log(text);
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent) {
       this.hideEvent.remove(false);
     }
+
     this.hideEvent = this.scene.time.addEvent({
       delay: 2000,
       callback: this.hideMessage,
@@ -141,8 +141,6 @@ let Menu = new Phaser.Class({
   },
   confirm() {
     // что делать, когда игрок подтверждает свой выбор
-    console.log(`Menu confirm() `);
-
   },
   clear() {
     for (let i = 0; i < this.menuItems.length; i++) {
@@ -154,9 +152,14 @@ let Menu = new Phaser.Class({
   remap(units) {
     this.clear();
     for (let i = 0; i < units.length; i++) {
-      let unit = units[i];
-      // this.addMenuItem(unit.type);
-      unit.setMenuItem(this.addMenuItem(unit.type));
+      if (units[i].hp === 0) {
+        // если хп ноль то удаляем в массиве
+        // units.splice(i, 1);
+        this.units[i].destroy();
+      } else {
+        let unit = units[i];
+        unit.setMenuItem(this.addMenuItem(unit.type));
+      }
     }
     this.menuItemIndex = 0;
   }

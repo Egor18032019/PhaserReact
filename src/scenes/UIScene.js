@@ -14,13 +14,17 @@ export default class UIScene extends Phaser.Scene {
     });
 
   }
+
+  init(msg) {
+    // console.log(`UIScene Menu: `, msg);
+    if (msg === `sleep in Battle`) {
+      // console.log(`UIScene Menu: sleep in Battle);`);
+    }
+  }
   preload() {
-    console.log(`preload UIScene`);
 
   }
   create() {
-    console.log(`create UIScene`);
-
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
@@ -62,7 +66,6 @@ export default class UIScene extends Phaser.Scene {
     this.add.existing(this.message);
 
     this.createMenu();
-    console.log(`UIScene end`);
 
   }
   createMenu() {
@@ -96,8 +99,6 @@ export default class UIScene extends Phaser.Scene {
     }
   }
   onPlayerSelect(id) {
-    console.log(`onPlayerSelect onPlayerSelect(id) `);
-
     this.heroesMenu.select(id);
     this.actionsMenu.select(0);
     this.currentMenu = this.actionsMenu;
@@ -105,13 +106,10 @@ export default class UIScene extends Phaser.Scene {
     // Затем мы выбираем первый элемент в ActionsMenu, и он становится текущим активным меню.
   }
   onSelectedAction() {
-    console.log(`UIScene onSelectEnemies`);
-
     this.currentMenu = this.enemiesMenu;
     this.enemiesMenu.select(0);
   }
   onEnemy(index) {
-    console.log(`UIScene onEnemy`);
     // А метод onEnemy UIScene очистит все меню и отправит данные в BattleScene:
     this.heroesMenu.deselect();
     this.actionsMenu.deselect();

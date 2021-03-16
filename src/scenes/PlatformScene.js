@@ -1,13 +1,6 @@
-/* eslint-disable linebreak-style */
 import Phaser from 'phaser';
 import ScoreLabel from '../ui/ScoreLabel';
 import BombSpawner from '../ui/BombSpawner';
-
-import sky from '../assets/sky.png';
-import ground from '../assets/platform.png';
-import star from '../assets/star.png';
-import bomb from '../assets/bomb.png';
-import dude from '../assets/dude.png';
 
 
 export default class PlatformScene extends Phaser.Scene {
@@ -25,13 +18,13 @@ export default class PlatformScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(`sky`, sky);
-    this.load.image(`ground`, ground);
-    this.load.image(`star`, star);
-    this.load.image(`bomb`, bomb);
+    this.load.image(`sky`, `./assets/sky.png`);
+    this.load.image(`ground`, `./assets/platform.png`);
+    this.load.image(`star`, `./assets/star.png`);
+    this.load.image(`bomb`, `./assets/bomb.png`);
     this.load.image(`red`, `http://labs.phaser.io/assets/particles/red.png`);
 
-    this.load.spritesheet(`dude`, dude, {
+    this.load.spritesheet(`dude`, `./assets/dude.png`, {
       frameWidth: 32,
       frameHeight: 48,
     });
@@ -98,6 +91,7 @@ export default class PlatformScene extends Phaser.Scene {
     });
 
     stars.children.iterate((child) => {
+      // eslint-disable-next-line new-cap
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
     return stars;
@@ -129,8 +123,6 @@ export default class PlatformScene extends Phaser.Scene {
 
   hitBomb(player, bomba) {
     this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play(`turn`);
     bomba.destroy();
     const particles = this.add.particles(`red`);
 
@@ -144,8 +136,25 @@ export default class PlatformScene extends Phaser.Scene {
       blenMode: `ADD`,
     });
 
-    emitter.startFollow(this.player); // емитер следуй за лого ))
-    this.gameOver = true;
+    emitter.startFollow(player); // емитер следуй за лого ))
+
+    this.cursors.left.reset();
+
+    this.cursors.right.reset();
+
+    this.cursors.up.reset();
+
+    this.cursors.down.reset();
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: this.restart,
+      callbackScope: this
+    });
+  }
+
+  restart() {
+    this.scene.restart();
   }
 
   create() {
@@ -184,8 +193,8 @@ export default class PlatformScene extends Phaser.Scene {
       this.player.setVelocityX(0);
       this.player.anims.play(`turn`);
     }
-    if (this.cursors.up.isDown && this.player.body.touching.down) // также проверяем, касается ли он платформы
-    {
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      // также проверяем, касается ли он платформы
       this.player.setVelocityY(-444);
     }
   }
