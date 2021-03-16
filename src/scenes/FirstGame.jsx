@@ -44,8 +44,8 @@ class ChooseGame extends PureComponent {
     console.log(`componentDidMount`);
     const ChoosingGame = returnConfigMainGame(mapGame[this.props.game]);
     new Phaser.Game(ChoosingGame);
-
   }
+
   componentWillUnmount() {
     console.log(`componentWillUnmount`);
 
@@ -55,7 +55,6 @@ class ChooseGame extends PureComponent {
     console.log(`componentDidUpdate`);
 
     let oldCanvas = document.getElementById(`content`);
-    console.log(oldCanvas);
     oldCanvas.removeChild(oldCanvas.lastChild);
     const ChoosingGame = returnConfigMainGame(mapGame[this.props.game]);
     new Phaser.Game(ChoosingGame);

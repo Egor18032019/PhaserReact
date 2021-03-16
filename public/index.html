@@ -8,21 +8,7 @@
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
   <link rel="apple-touch-icon" href="./dude.png" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async function () {
 
-        await navigator.serviceWorker.register('/sw.js', {
-          scope: '/' //устанавливаем область видимости (scope) для нашего Service Worker в корень сайта: /
-        }).then(function (registration) {
-          console.log('ServiceWorker зарегистрирован с областью видимости в пределах: ', registration.scope);
-        }, function (err) {
-          console.log('Регистрация ServiceWorker не удалась: ', err);
-        });
-      });
-    }
-
-  </script>
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -42,9 +28,67 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
+       <!-- Модальное окно -->
+
+       <div id="myModal" class="modal">
+
+        <!-- Контент в модальном контенте -->
+
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <p>Добавить на домашний экран?</p>
+
+            <button onclick="offlinePrompt()">Установить</button>
+
+        </div>
+
+    </div>
   <div id="content"></div>
-  <script src="/bundle.js"></script>
-  <!-- <script src="../build/bundle.js"></script> -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async function () {
+
+        await navigator.serviceWorker.register('/sw.js', {
+          scope: '/' //устанавливаем область видимости (scope) для нашего Service Worker в корень сайта: /
+        }).then(function (registration) {
+          console.log('ServiceWorker зарегистрирован с областью видимости в пределах: ', registration.scope);
+        }, function (err) {
+          console.log('Регистрация ServiceWorker не удалась: ', err);
+        });
+      });
+    }
+
+    let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', function (e) {
+                console.log('beforeinstallprompt запущен');
+                e.preventDefault();
+                deferredPrompt = e;
+                modal.style.display = 'block';
+            });
+            // Получаем модальное окно
+            const modal = document.getElementById('myModal');
+            // Получаем элемент <span> закрывающее модальное окно
+            const span = modal.getElementsByClassName('close')[0];
+            // Если пользователь щелкает за пределами модального окна - оно закрывается
+            window.onclick = function(event) {
+            console.log(event.target == modal)
+                if (event.target !== modal) {
+                    modal.style.display = 'none';
+                }
+            }
+            // Если пользователь щелкает <span> (x), модальное окно закрывается
+            span.onclick = function() {
+                modal.style.display = 'none';
+            }
+            function offlinePrompt() {
+                deferredPrompt.prompt();
+                //Когда нажата кнопка установки в модальном окне, мы вызываем метод prompt() для этого события.
+            }
+  </script>
+  <!-- <script src="/bundle.js"></script> -->
+  <script src="../build/bundle.js"></script>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
