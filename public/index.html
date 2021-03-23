@@ -73,7 +73,6 @@
             const span = modal.getElementsByClassName('close')[0];
             // Если пользователь щелкает за пределами модального окна - оно закрывается
             window.onclick = function(event) {
-            console.log(event.target == modal)
                 if (event.target !== modal) {
                     modal.style.display = 'none';
                 }
@@ -87,8 +86,8 @@
                 //Когда нажата кнопка установки в модальном окне, мы вызываем метод prompt() для этого события.
             }
   </script>
-  <!-- <script src="/bundle.js"></script> -->
-  <script src="../build/bundle.js"></script>
+  <script src="/bundle.js"></script>
+  <!-- <script src="../build/bundle.js"></script> -->
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
